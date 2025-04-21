@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "title": "Mastering the Art of Men's Capsule Wardrobes",
+    "subtitle": "Effortless & Timeless Style",
+    "date": "12th August 2022",
+    "imageUrl": "https://www.suitsexpert.com/wp-content/uploads/capsule-wardrobe-for-men-cover.jpg"
+  },
+  {
+    "id": 2,
+    "title": "The Hottest Beachwear Trends for Men",
+    "subtitle": "Stay Cool, Look Sharp",
+    "date": "18th January 2023",
+    "imageUrl": "https://www.apetogentleman.com/wp-content/uploads/2022/08/BiggestSwimwearTrend10.jpg"
+  },
+  {
+    "id": 3,
+    "title": "The Power of Tailored Suits for Men",
+    "subtitle": "Dressing for Success",
+    "date": "5th January 2025",
+    "imageUrl": "https://blackberrys.com/cdn/shop/files/2-pcs-suit-in-black-jerret-blackberrys-clothing-2_df0460a0-261d-4e69-9d33-fac771fa5a6b.jpg?v"
+  },
+  {
+    "id": 4,
+    "title": "The Ultimate Men's Fashion Fair 2025",
+    "subtitle": "New York’s Biggest Style Event",
+    "date": "25th May 2025",
+    "imageUrl": "https://imgix.bustle.com/uploads/image/2025/1/21/41545f1a/gettyimages-2194339632.jpg?w"
+  }
+]
