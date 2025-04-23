@@ -6,6 +6,7 @@ import Searchpage from "../pages/Search/Searchpage";
 import Shoppage from "../pages/Shops/Shoppage";
 import Login from "../components/Login";
 import Register from "../components/Register";
+
 const router = createBrowserRouter(
     [
         {
