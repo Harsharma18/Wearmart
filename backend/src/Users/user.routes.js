@@ -2,11 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Usermodel = require("./user.model");
 require("dotenv").config();
-
 // const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const verifyToken = require('../middleware/verifyToken');
-
  //Register endpoint 
  router.post("/register",async(req ,res)=>{
     const {username,email,password} = req.body;
@@ -41,8 +39,6 @@ const verifyToken = require('../middleware/verifyToken');
         }
         //!Generate token
         const token = jwt.sign({userid:user._id,role:user.role},process.env.JWT_SECRET_KEY,{expiresIn:process.env.JWT_EXPIRY});
-       
-      
         res.cookie('tokenname',token,{
             httpOnly:true,
             secure:true,
@@ -156,3 +152,4 @@ const verifyToken = require('../middleware/verifyToken');
    })
 
 module.exports = router;
+ 
