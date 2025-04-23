@@ -22,10 +22,7 @@ const productsSchema  = new  mongoose.Schema({
         type:mongoose.Types.ObjectId,
         ref:"User",
         required:true,
-    }
-
-
-
+    }  
 });
 const Product = mongoose.model("Product",productsSchema);
 module.exports  = Product;
