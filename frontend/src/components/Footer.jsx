@@ -27,7 +27,6 @@ function Footer() {
           <a href='/' className='hover:text-red-500 transition duration-300'>Our Blogs</a>
           <a href='/' className='hover:text-red-500 transition duration-300'>Terms & Conditions</a>
         </div>
-        
         {/* Useful Links */}
         <div className='flex flex-col gap-3'>
           <h4 className='text-xl font-semibold border-b-2 pb-2 border-red-500'>Useful Links</h4>
@@ -56,5 +55,4 @@ function Footer() {
     </div>
   );
 }
-
 export default Footer;
