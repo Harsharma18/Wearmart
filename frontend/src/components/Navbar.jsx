@@ -196,9 +196,8 @@ const Navbar = () => {
         </li>
         <li>
           <Link to="/" className="hover:text-blue-600 transition duration-300">Contact</Link>
-        </li>
+        </li> 
       </ul>
-
       <div className="flex justify-center gap-6 text-xl mt-4 text-gray-700 ">
         <Link to="/search" className="hover:text-blue-600 transition">
           <i className="fa-solid fa-magnifying-glass"></i>
@@ -217,7 +216,6 @@ const Navbar = () => {
       src={user?.profileImg || avtarImg}
       alt="User Avatar"
     />
-    
     {dropdownprofle && (
       <div className="absolute top-12 left-2 md:right-4  bg-white border border-gray-200 rounded-xl shadow-md min-w-[180px] p-4">
         <ul className="space-y-3 text-sm text-gray-700 font-medium">
