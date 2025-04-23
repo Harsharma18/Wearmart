@@ -12,7 +12,7 @@ import Categories from './Categories';
 import Trendingproduct from '../Shops/Trendingproduct';
 import Promobanner from './Promobanner';
 import Blogs from '../Blogs/Blogs';
-
+   
 function Home() {
     return (
         <>
