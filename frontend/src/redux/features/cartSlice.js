@@ -6,8 +6,6 @@ const initialState =  {
       tax : 0,
       taxRate:0.15,
       grandTotal:0,
-      
-
 }
 
 const cartSlices = createSlice({
@@ -69,8 +67,7 @@ const cartSlices = createSlice({
         //         }
         //     }
         //     updateCart(state);
-        //    }
-        
+        //    } 
 
     }
 
