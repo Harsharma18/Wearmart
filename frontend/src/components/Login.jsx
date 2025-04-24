@@ -25,9 +25,6 @@ function Login() {
       // console.log(res);
       const {token ,user} = res;
       dispatch(setUser({user}));
-      
-     
-      
       navigate("/");
       //* using fetch
       // const res = await fetch("http://localhost:8080/api/auth/login", {
@@ -84,6 +81,6 @@ function Login() {
         </div>
     </div>
   )
-}798
+}
 
 export default Login
