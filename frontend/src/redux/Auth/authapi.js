@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { getBaseUrl } from '../../utils/baseUrl';
+
 const authApi = createApi({
     reducerPath:'authapiname',
     baseQuery:fetchBaseQuery({
@@ -39,7 +40,7 @@ const authApi = createApi({
             }),
             providesTags: ['Users']
           
-        }),
+        }),   
         updateUserrole:builder.mutation({
             query : ({userId,role})=>({
                  method:"PUT",
@@ -67,9 +68,6 @@ const authApi = createApi({
             }),
             invalidatesTags: ['Users']
         })
-
-
-
     })
 });
 export const {useRegisterUserMutation,useLoginUserMutation,useLogoutUserMutation,
