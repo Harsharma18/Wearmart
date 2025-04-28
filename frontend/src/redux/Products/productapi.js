@@ -7,7 +7,7 @@ import { getBaseUrl } from "../../utils/baseUrl";
   tagTypes: ["Products", "Product"],
   endpoints: (builder) => ({
     fetchAllProducts: builder.query({
-      query: ({
+      query: ({   //for dynamic we pass qury here any name we pass
         searchInput,
         category,
         brand,
@@ -20,17 +20,17 @@ import { getBaseUrl } from "../../utils/baseUrl";
         limit = 10,
       }) => {
         const queryParams = new URLSearchParams({
-          category: category || "",
+          category: category || "",  //we give any name to left side right side name is of query pass 
           color: color || "",
           brand: brand || "",
-          ratings: ratings || 0,
+          ratings: ratings || '',
           searchInput: searchInput || "",
-          minPrice: minPrice || 0,
+          minPrice: minPrice || '',
           maxPrice: maxPrice || "",
           sort: sort,
           page: page.toString(),
           limit: limit.toString(),
-        }).toString();
+        }).toString();//same query params name we write left pass into  req.query
         return {
           method: "GET",
           url: `/?${queryParams}`,

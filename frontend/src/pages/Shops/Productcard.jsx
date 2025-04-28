@@ -2,11 +2,33 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {  useDispatch } from 'react-redux'
 import { addToCart } from '../../redux/features/cartSlice';
-const ProductCard = ({ products }) => {
+const ProductCard = ({ products,filterState,clearFilter }) => {
   const dispatch = useDispatch();
   const handleAddtoCart = (item)=>{
     dispatch(addToCart(item));
     // console.log(addToCart(item));
+  }
+  if (!products?.length) {
+    return (
+      <div className="container mx-auto px-4 py-6">
+         <div className="w-full shadow-lg rounded-xl h-60 bg-gray-100 flex flex-col justify-center items-center text-center px-6">
+          <h1 className="text-2xl font-bold text-gray-800 mb-4">
+            No Products Found
+          </h1>
+          <p className="text-lg text-gray-700">
+            {filterState.searchInput 
+              ? `No products match your search "${filterState.searchInput}"`
+              : "Try adjusting your filters or search criteria"}
+          </p>
+          <button
+            onClick={clearFilter}
+            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
+          >
+            Clear Filters
+          </button>
+      </div>
+      </div>
+    );
   }
 
   
@@ -37,7 +59,7 @@ const ProductCard = ({ products }) => {
 
             {/* Product Info */}
             <div className="p-4 text-center w-full">
-              <h4 className="text-lg font-semibold text-gray-800">{item.name}</h4>
+              <h4 className="text-lg line-clamp-1 font-semibold text-gray-800">{item.name}</h4>
               <p className="text-gray-500 text-sm capitalize">{item.category}</p>
 
               {/* Pricing */}

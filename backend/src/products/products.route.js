@@ -25,56 +25,88 @@ router.post("/create-product",async(req,res)=>{
     }
    
 });
-router.get("/",async(req,res)=>{
-    try{
-    const  { searchInput, category,brand,color, ratings,minPrice,maxPrice, sort,page=1,limit=10 } = req.query;
-    let filter = {};
-    let sortOption = {};
-    if(searchInput){
-        filter.name= {$regex:searchInput,$options:'i'}
-    }
-    if(ratings){
-        filter.rating = {$gte:Number(ratings)}    }
-    if(category && category!=='all'){
+// Update the GET route in your backend
+router.get("/", async (req, res) => {
+    try {
+      const { 
+        searchInput, 
+        category, 
+        brand, 
+        color, 
+        ratings, 
+        minPrice, 
+        maxPrice, 
+        sort, 
+        page = 1, 
+        limit = 10 
+      } = req.query;
+  
+      let filter = {};
+      let sortOption = {};
+  
+      // Search filter
+      if (searchInput) {
+        filter.name = { $regex: searchInput, $options: 'i' };
+      }
+  
+      // Category filter
+      if (category && category !== 'all') {
         filter.category = category;
-    }
-       if(brand && brand!=='all'){
+      }
+  
+      // Brand filter
+      if (brand && brand !== 'all') {
         filter.brand = brand;
-       }
-
-       if(color && color!=="all"){
+      }
+  
+      // Color filter
+      if (color && color !== 'all') {
         filter.color = color;
-       }
-       if(minPrice && maxPrice){
+      }
+  
+      // Ratings filter
+      if (ratings && ratings !== 'all') {
+        filter.rating = Number(ratings);
+      }
+  
+      // Price range filter
+      if (minPrice && maxPrice) {
         const min = parseFloat(minPrice);
         const max = parseFloat(maxPrice);
-        if(!isNaN(min) && !isNaN(max)){
-            filter.price = {$gte:min,$lte:max}
+        if (!isNaN(min) && !isNaN(max)) {
+          filter.price = { $gte: min, $lte: max };
         }
-        
-       }
-       if (sort === "priceLowToHigh") sortOption.price = 1;
-       else if (sort === "priceHighToLow") sortOption.price = -1;
-       else if (sort === "nameAZ") sortOption.name = 1;
-       else if (sort === "nameZA") sortOption.name = -1;
-       else if (sort === "ratingHighToLow") sortOption.rating = -1;
-           
-           const totalProducts = await ProductModel.countDocuments(filter);
-           const totalPages = Math.ceil(totalProducts/parseInt(limit));
-            const skippage = (parseInt(page-1))*(parseInt(limit));
-            const products = await ProductModel.find(filter)
-            .skip(skippage).limit(parseInt(limit))
-            .populate("author","email")
-            .sort(sortOption);
-
-           res.status(200).send({products,totalPages,totalProducts});
-          
-         
-
-    }catch(err){
-        res.status(200).send({message:"Error Fetching projects"});
+      }
+  
+      // Sort options
+      if (sort === "priceLowToHigh") sortOption.price = 1;
+      else if (sort === "priceHighToLow") sortOption.price = -1;
+      else if (sort === "nameAZ") sortOption.name = 1;
+      else if (sort === "nameZA") sortOption.name = -1;
+      else if (sort === "ratingHighToLow") sortOption.rating = -1;
+  
+      // Get total count and paginated results
+      const totalProducts = await ProductModel.countDocuments(filter);
+      const totalPages = Math.ceil(totalProducts / parseInt(limit));
+      const skipProducts = (parseInt(page) - 1) * parseInt(limit);
+  
+      const products = await ProductModel.find(filter)
+        .skip(skipProducts)
+        .limit(parseInt(limit))
+        .populate("author", "email")
+        .sort(sortOption);
+  
+      res.status(200).send({
+        products,
+        totalPages,
+        totalProducts,
+        currentPage: parseInt(page)
+      });
+    } catch (err) {
+      console.error("Error fetching products:", err);
+      res.status(500).send({ message: "Error fetching products" });
     }
-});
+  });
 //get a single product by  id 
 router.get("/:id", async (req, res) => {
     try {
@@ -94,7 +126,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 //update 
-router.patch("/update/:id",verifyToken,verifyAdmin,async(req,res)=>{
+router.patch("/update/:id",async(req,res)=>{
     try{
         const {id} = req.params;
         const updateproduct = await ProductModel.findByIdAndUpdate(id,{...req.body},{new:true});
