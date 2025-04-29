@@ -1,10 +1,22 @@
 import React, { useState } from 'react'
 import Productcard from './Productcard'
-import {products} from "../../data/products.js"
+// import {products} from "../../data/products.js"
+import { useFetchAllProductsQuery } from '../../redux/Products/productapi.js';
 function Trendingproduct() {
     const [visiblecard,setvisiblecard] = useState(8);
+    const {data={},isLoading,isError} = useFetchAllProductsQuery({
+      page: 1,
+      limit: 50,
+    })
     const loadmorecard = ()=>{
         setvisiblecard((prev)=> prev+6);
+    }
+    if (isLoading) {
+      return <div className="text-center py-8">Loading products...</div>;
+    }
+  
+    if (isError) {
+      return <div className="text-center py-8 text-red-500">Failed to load products.</div>;
     }
   return (
   <>
@@ -17,11 +29,11 @@ function Trendingproduct() {
   </p>
 </div>
 <div>
-<Productcard products={products.slice(0,visiblecard)}/>
+<Productcard products={data?.products?.slice(0, visiblecard) || []} />
 </div>
  
   <div className="flex justify-center items-center mb-12"> 
-    {visiblecard < products.length && (
+    {visiblecard < (data?.products?.length || 0) && (
       <button 
         onClick={loadmorecard} 
         className="bg-red-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-red-700 transition-all duration-300"
