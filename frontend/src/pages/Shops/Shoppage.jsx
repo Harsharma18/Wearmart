@@ -155,7 +155,7 @@ function Shoppage() {
 
   const totalPages = data?.totalPages || 1;
   const totalProducts = data?.totalProducts || 0;
-  let buttonperPage = 4; // how many page buttons visible at a time
+  let buttonperPage = 4; // how many page buttons 
   let startIndex = Math.floor((currentPage - 1)/buttonperPage)*buttonperPage + 1;
   let endIndex = Math.min(startIndex + buttonperPage - 1, totalPages);
   let pageNumberArray = [];
@@ -167,6 +167,8 @@ function Shoppage() {
       setCurrentPage(pageNumber);
     }
   }
+  const startProduct = (currentPage - 1) * productPerPage + 1;
+    const endProduct = startProduct + data?.products.length - 1;
   return (
     <div className="container mx-auto w-full md:w-[70%] p-6 mt-4">
       {/*  Header */}
@@ -234,7 +236,7 @@ function Shoppage() {
           onClick={()=> setFilterDiv(true)}
            className='md:hidden bg-blue-500 text-white px-4 py-2 rounded-md mb-4 w-full '>Show Filter</button>
             <h3 className='text-xl font-semibold  ml-8 '>
-           Showing {startIndex} to {endIndex} of {totalProducts} products.
+           Showing {startProduct} to {endProduct} of {totalProducts} products.
                         </h3>
       <ProductCard products={data?.products || []} clearFilter={clearFilter}   filterState={filterState}/>
       {/* // {sortedProducts.length === 0 ? (

@@ -42,7 +42,7 @@ const ProductCard = ({ products,filterState,clearFilter }) => {
           >
             {/* Image Section */}
             <div className="relative  w-full h-[300px] rounded-2xl flex justify-center items-center overflow-hidden group">
-              <Link to={`/shop/${item.id}`} className="block w-full h-full">
+              <Link to={`/shop/${item._id}`} className="block w-full h-full">
                 <img 
                   src={item.image} 
                   alt={item.name} 

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Productcard from './Productcard'
 // import {products} from "../../data/products.js"
 import { useFetchAllProductsQuery } from '../../redux/Products/productapi.js';
+import  { ProductCardSkeleton } from '../../components/Shopskelton.jsx';
 function Trendingproduct() {
     const [visiblecard,setvisiblecard] = useState(8);
     const {data={},isLoading,isError} = useFetchAllProductsQuery({
@@ -12,7 +13,7 @@ function Trendingproduct() {
         setvisiblecard((prev)=> prev+6);
     }
     if (isLoading) {
-      return <div className="text-center py-8">Loading products...</div>;
+      return <ProductCardSkeleton/>
     }
   
     if (isError) {
@@ -46,5 +47,4 @@ function Trendingproduct() {
   </>
   )
 }
-
 export default Trendingproduct

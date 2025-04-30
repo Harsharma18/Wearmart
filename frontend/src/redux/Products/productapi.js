@@ -53,7 +53,7 @@ import { getBaseUrl } from "../../utils/baseUrl";
         credentials: "include",
       }),
       invalidatesTags: ["Products"],
-    }),
+    }),    
     updateProduct: builder.mutation({
       query: ({ id, ...updateditem }) => ({
         method: "PATCH",
