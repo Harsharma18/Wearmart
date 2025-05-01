@@ -1,18 +1,35 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import {products} from  "../../data/products.js"
+// import {products} from  "../../data/products.js"
 import ProductCard from '../Shops/Productcard';
+import { useFetchAllProductsQuery } from '../../redux/Products/productapi';
+import { SearchPageSkelton } from '../../components/Shopskelton';
 
 function Categorypage() {
     const {categoryName} = useParams();
-    const [filterProduct,setfilterProduct] = useState([]);
-    useEffect(()=>{
-        const filtered = products.filter((item)=>item.category.toLowerCase() === categoryName.toLowerCase());
-        // console.log("filtered product",filtered);
-        setfilterProduct(filtered);
-    },[categoryName]);
-    useEffect(()=>{window.scroll(0,0),[]})
-    
+    const {data={},isLoading,isError} = useFetchAllProductsQuery({category:categoryName});
+    console.log(data);
+    // const [filterProduct,setfilterProduct] = useState([]);
+    // useEffect(()=>{
+    //     const filtered = products.filter((item)=>item.category.toLowerCase() === categoryName.toLowerCase());
+    //     // console.log("filtered product",filtered);
+    //     setfilterProduct(filtered);
+    // },[categoryName])
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
+      
+    if(isLoading) return <SearchPageSkelton/>
+    if (isError) {
+        return (
+          <div className="flex flex-col items-center justify-center h-60 bg-red-100 rounded-lg shadow-md text-center p-4">
+            <h2 className="text-xl sm:text-2xl font-semibold text-red-700">
+              Failed to load products
+            </h2>
+          </div>
+        );
+      }
+    const filterProduct = data?.products || [];
   return (
     <div className='container mx-auto  w-full md:w-[70%] p-6 mt-2'>
     {/* Category Header Section */}
@@ -28,7 +45,7 @@ function Categorypage() {
 
     {/* Product Section */}
     <div className="mt-6">
-    {filterProduct.length > 0 ? (
+    {Array.isArray(filterProduct) && filterProduct.length > 0 ? (
         <ProductCard products={filterProduct} />
     ) : (
         <div className="flex flex-col items-center justify-center h-60 bg-gray-100 rounded-lg shadow-md">
