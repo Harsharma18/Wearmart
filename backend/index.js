@@ -27,8 +27,10 @@ app.get("/",(req,res)=>{
 })
 const userRoute = require("./src/Users/user.routes");
 const productRoute = require("./src/products/products.route");
+const reviewRoute = require("./src/reviews/review.route");
 app.use("/api/auth",userRoute);
 app.use("/api/product",productRoute);
+app.use("/api/review",reviewRoute);
 
 app.listen(port,()=>{
     console.log(`Server is running on ${port}`);
