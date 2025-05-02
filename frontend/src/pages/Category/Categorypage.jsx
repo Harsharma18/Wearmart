@@ -50,7 +50,7 @@ function Categorypage() {
     ) : (
         <div className="flex flex-col items-center justify-center h-60 bg-gray-100 rounded-lg shadow-md">
             <h2 className="text-xl sm:text-2xl font-semibold text-gray-700">
-                No products found in {categoryName}
+                No products found in this category.
             </h2>
             <p className="text-gray-500 mt-2 text-center px-4">
                 Sorry, we couldn't find any products in this category.  
