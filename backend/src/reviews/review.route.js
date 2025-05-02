@@ -25,7 +25,7 @@ router.post("/post-review", async (req, res) => {
       });
     }
     const reviews = await ReviewModel.find({ productId });
-    console.log(reviews);
+    // console.log(reviews);
     if (reviews.length > 0) {
       const totalRating = reviews.reduce((acc, item) => item.rating + acc, 0);
       const averageRating = totalRating / reviews.length;
@@ -38,9 +38,11 @@ router.post("/post-review", async (req, res) => {
       }
     }
     //calculate average rating
-    res
-      .status(200)
-      .send({ message: "Review posted successfully", review: reviews });
+    res.status(200).send({
+      message: "Review posted successfully",
+      reviews,
+    });
+    
   } catch (err) {
     res.status(500).send({ message: "Failed to post review" });
   }
@@ -58,6 +60,18 @@ router.get("/total-review", async (req, res) => {
     res.status(500).send({ message: "Failed to get total review" });
   }
 });
+
+//show all review of single product by multiple user
+router.get("/product/:productId", async (req, res) => {
+  try {
+    const reviews = await ReviewModel.find({
+      productId: req.params.productId,
+    }).populate("author", "name");
+    res.status(200).send(reviews);
+  } catch (err) {
+    res.status(500).send({ message: "Failed to get reviews" });
+  }
+});
 //get all Review for a product
 router.get("/:userId", async (req, res) => {
   const { userId } = req.params;
@@ -72,17 +86,6 @@ router.get("/:userId", async (req, res) => {
     res.status(200).send(review);
   } catch (err) {
     res.status(500).send({ message: "Failed to get review" });
-  }
-});
-//show all review of single product by multiple user
-router.get("/product/:productId", async (req, res) => {
-  try {
-    const reviews = await ReviewModel.find({
-      productId: req.params.productId,
-    }).populate("author", "name");
-    res.status(200).send(reviews);
-  } catch (err) {
-    res.status(500).send({ message: "Failed to get reviews" });
   }
 });
 router.put("/edit-review/:reviewId", verifyToken, async (req, res) => {
@@ -137,7 +140,7 @@ router.delete("/delete-review/:reviewId", verifyToken, async (req, res) => {
 //like and dislike review
 router.post("/like-review/:reviewId", verifyToken, async (req, res) => {
   const { reviewId } = req.params;
-  const userId = req.user._id;
+  const userId = req.user.id;
 
   try {
     const review = await ReviewModel.findById(reviewId);
@@ -171,7 +174,7 @@ router.post("/like-review/:reviewId", verifyToken, async (req, res) => {
 });
 router.post("/dislike/:reviewId", verifyToken, async (req, res) => {
   const { reviewId } = req.params;
-  const userId = req.user._id;
+  const userId = req.user.id;
 
   try {
     const review = await ReviewModel.findById(reviewId);
