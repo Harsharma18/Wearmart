@@ -79,11 +79,14 @@ router.get("/", async (req, res) => {
       }
   
       // Sort options
-      if (sort === "priceLowToHigh") sortOption.price = 1;
-      else if (sort === "priceHighToLow") sortOption.price = -1;
-      else if (sort === "nameAZ") sortOption.name = 1;
-      else if (sort === "nameZA") sortOption.name = -1;
-      else if (sort === "ratingHighToLow") sortOption.rating = -1;
+      if (sort && sort !== "undefined") {
+        if (sort === "priceLowToHigh") sortOption.price = 1;
+        else if (sort === "priceHighToLow") sortOption.price = -1;
+        else if (sort === "nameAZ") sortOption.name = 1;
+        else if (sort === "nameZA") sortOption.name = -1;
+        else if (sort === "ratingHighToLow") sortOption.rating = -1;
+      }
+      
   
       // Get total count and paginated results
       const totalProducts = await ProductModel.countDocuments(filter);

@@ -19,7 +19,10 @@ main().then(()=>{
     console.log(err);
 })
 async function main() {
-    await mongoose.connect(process.env.DB_URL);
+    await mongoose.connect(process.env.DB_URL,{
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
   }
 const port = process.env.PORT || 8080;
 app.get("/",(req,res)=>{
