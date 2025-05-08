@@ -1,70 +1,79 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { getBaseUrl } from '../../utils/baseUrl';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { getBaseUrl } from "../../utils/baseUrl";
 
- const reviewApi = createApi({
-  reducerPath: 'reviewapi',
+const reviewApi = createApi({
+  reducerPath: "reviewapi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${getBaseUrl()}/api/review`,
-    credentials: 'include',
+    credentials: "include",
+    prepareHeaders: (headers, { getState }) => {
+      const token = getState().auth?.token;
+      console.log(getState().auth);
+      if (token) {
+        headers.set("authorization", `Bearer ${token}`);
+      }
+
+      return headers;
+    },
   }),
-  tagTypes: ['Reviews'],
+  tagTypes: ["Reviews"],
   endpoints: (builder) => ({
     postReview: builder.mutation({
       query: (reviewBody) => ({
-        method: 'POST',
-        url: '/post-review',
+        method: "POST",
+        url: "/post-review",
         body: reviewBody,
       }),
-      invalidatesTags: ['Reviews'],
+      invalidatesTags: ["Reviews"],
     }),
     fetchTotalReviews: builder.query({
       query: () => ({
-        method: 'GET',
-        url: '/total-review',
+        method: "GET",
+        url: "/total-review",
       }),
     }),
     fetchAllReviewByUserid: builder.query({
       query: (userId) => ({
-        method: 'GET',
+        method: "GET",
         url: `/${userId}`,
       }),
-      providesTags: ['Reviews'],
+      providesTags: ["Reviews"],
     }),
     fetchAllReviewsByProductId: builder.query({
       query: (productId) => ({
-        method: 'GET',
+        method: "GET",
         url: `/product/${productId}`,
       }),
-      providesTags: ['Reviews'],
+      providesTags: ["Reviews"],
     }),
     editReview: builder.mutation({
       query: ({ reviewId, ...body }) => ({
-        method: 'PUT',
+        method: "PUT",
         url: `/edit-review/${reviewId}`,
         body,
       }),
-      invalidatesTags: ['Reviews'],
+      invalidatesTags: ["Reviews"],
     }),
     deleteReview: builder.mutation({
       query: (reviewId) => ({
-        method: 'DELETE',
+        method: "DELETE",
         url: `/delete-review/${reviewId}`,
       }),
-      invalidatesTags: ['Reviews'],
+      invalidatesTags: ["Reviews"],
     }),
     likeReview: builder.mutation({
       query: (reviewId) => ({
-        method: 'POST',
+        method: "POST",
         url: `/like-review/${reviewId}`,
       }),
-      invalidatesTags: ['Reviews'],
+      invalidatesTags: ["Reviews"],
     }),
     dislikeReview: builder.mutation({
       query: (reviewId) => ({
-        method: 'POST',
-        url: `/dislike/${reviewId}`,
+        method: "POST",
+        url: `/dislike-review/${reviewId}`,
       }),
-      invalidatesTags: ['Reviews'],
+      invalidatesTags: ["Reviews"],
     }),
   }),
 });

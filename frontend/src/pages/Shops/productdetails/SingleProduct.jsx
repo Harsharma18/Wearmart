@@ -4,6 +4,7 @@ import { useFetchProductByIdQuery } from "../../../redux/Products/productapi";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../redux/features/cartSlice";
 import { SingleProductSkeleton } from "../../../components/Shopskelton";
+import Reviewcard from "../reviews/Reviewcard";
 
 function SingleProduct() {
   const [ismore, setismore] = useState(false);
@@ -14,6 +15,7 @@ function SingleProduct() {
   const { id } = useParams();
   const { data = {}, isLoading, error } = useFetchProductByIdQuery(id);
   const singleProduct = data?.product || {};
+  const productreviews = data?.reviews|| [];
   const dispatch = useDispatch();
   const description = singleProduct?.description;
   const trimDesc = singleProduct?.description
@@ -104,7 +106,7 @@ function SingleProduct() {
           <div className="col-span-2 flex items-center gap-2">
             <span className="font-medium">Rating:</span>
             <Ratingstar ratings={singleProduct?.rating} />
-          </div>
+          </div> 
           <button
             onClick={() => dispatch(addToCart(singleProduct))}
             className="inline-flex  cursor-pointer items-center justify-center gap-2 mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2.5 px-6 rounded-md text-sm font-medium transition duration-300 ease-in-out shadow"
@@ -113,6 +115,13 @@ function SingleProduct() {
           </button>
         </div>
       </div>
+      {/* Product Review Section */}
+      {/* Product Review Section */}
+      <div className="mt-10 max-w-4xl mx-auto px-4">
+  <h1 className="text-2xl font-semibold mb-6 text-gray-800">All Reviews</h1>
+  <Reviewcard productreviews={productreviews|| []} />
+</div>
+
     </div>
   );
 }

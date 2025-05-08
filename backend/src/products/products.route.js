@@ -114,13 +114,13 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const product = await ProductModel.findById(id).populate("author", "username email");
+        const product = await ProductModel.findById(id).populate("author", "username email profileImg");
 
         if (!product) {
             return res.status(404).send({ message: "Product not found" });
         }
 
-        const reviews = await ReviewModel.find({ productId: id }).populate("author", "username email");
+        const reviews = await ReviewModel.find({ productId: id }).populate("author", "username email profileImg");
 
         res.status(200).send({ product, reviews });
     } catch (err) {

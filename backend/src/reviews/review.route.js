@@ -24,7 +24,7 @@ router.post("/post-review", async (req, res) => {
         author,
       });
     }
-    const reviews = await ReviewModel.find({ productId });
+    const reviews = await ReviewModel.find({ productId }).populate("author", "username profileImg"); 
     // console.log(reviews);
     if (reviews.length > 0) {
       const totalRating = reviews.reduce((acc, item) => item.rating + acc, 0);
@@ -42,7 +42,6 @@ router.post("/post-review", async (req, res) => {
       message: "Review posted successfully",
       reviews,
     });
-    
   } catch (err) {
     res.status(500).send({ message: "Failed to post review" });
   }
@@ -62,16 +61,18 @@ router.get("/total-review", async (req, res) => {
 });
 
 //show all review of single product by multiple user
+
 router.get("/product/:productId", async (req, res) => {
   try {
     const reviews = await ReviewModel.find({
       productId: req.params.productId,
-    }).populate("author", "name");
+    }).populate("author", "username profileImg"); 
     res.status(200).send(reviews);
   } catch (err) {
     res.status(500).send({ message: "Failed to get reviews" });
   }
 });
+
 //get all Review for a product
 router.get("/:userId", async (req, res) => {
   const { userId } = req.params;
@@ -119,12 +120,14 @@ router.delete("/delete-review/:reviewId", verifyToken, async (req, res) => {
   const { reviewId } = req.params;
 
   try {
-    const review = await ReviewModel.findById(reviewId);
+    const review = await ReviewModel.findById(reviewId).populate("author");
 
     if (!review) return res.status(404).json({ message: "Review not found" });
 
-    // Only review owner can delete
-    if (review.author.toString() !== req.user.id) {
+    // console.log("User :", req.user.userid);
+    // console.log("Author:", review.author._id.toString());
+
+    if (review.author._id.toString() !== req.user.userid) {
       return res
         .status(403)
         .json({ message: "Not authorized to delete this review" });
@@ -137,75 +140,75 @@ router.delete("/delete-review/:reviewId", verifyToken, async (req, res) => {
     res.status(500).json({ message: "Failed to delete review" });
   }
 });
+
 //like and dislike review
 router.post("/like-review/:reviewId", verifyToken, async (req, res) => {
   const { reviewId } = req.params;
-  const userId = req.user.id;
+  const userId = req.user.userid;
+  // console.log("like",userId);
+  
 
   try {
     const review = await ReviewModel.findById(reviewId);
-    if (!review) {
-      return res.status(404).json({ message: "Review not found" });
-    }
+    if (!review) return res.status(404).json({ message: "Review not found" });
 
-    const isLiked = review.likes.includes(userId);
-    const isDisliked = review.dislikes.includes(userId);
+    const hasLiked = review.likes.includes(userId);
+    const hasDisliked = review.dislikes.includes(userId);
 
-    if (isLiked) {
-      review.likes.pull(userId); // Remove like
+    if (hasLiked) {
+      // Remove like
+      review.likes.pull(userId);
     } else {
-      review.likes.push(userId); // Add like
-      if (isDisliked) {
-        review.dislikes.pull(userId); // Remove dislike if previously disliked
-      }
+      // Add like
+      review.likes.push(userId);
+
+      // If user has disliked → remove dislike
+      if (hasDisliked) review.dislikes.pull(userId);
     }
 
     await review.save();
-
     res.status(200).json({
-      message: isLiked ? "Like removed" : "Liked",
+      message: "Like updated",
       likesCount: review.likes.length,
       dislikesCount: review.dislikes.length,
     });
   } catch (error) {
-    console.error("Error liking review:", error);
-    res.status(500).json({ message: "Failed to like the review" });
+    res.status(500).json({ message: "Server error" });
   }
 });
-router.post("/dislike/:reviewId", verifyToken, async (req, res) => {
+router.post("/dislike-review/:reviewId", verifyToken, async (req, res) => {
   const { reviewId } = req.params;
-  const userId = req.user.id;
+  const userId = req.user.userid;
+  // console.log("dislike",userId);
+  
 
   try {
     const review = await ReviewModel.findById(reviewId);
-    if (!review) {
-      return res.status(404).json({ message: "Review not found" });
-    }
+    if (!review) return res.status(404).json({ message: "Review not found" });
 
-    const disliked = review.dislikes.includes(userId);
-    const liked = review.likes.includes(userId);
+    const hasDisliked = review.dislikes.includes(userId);
+    const hasLiked = review.likes.includes(userId);
 
-    if (disliked) {
-      review.dislikes.pull(userId); // Remove dislike
+    if (hasDisliked) {
+      // Remove dislike
+      review.dislikes.pull(userId);
     } else {
-      review.dislikes.push(userId); // Add dislike
-      if (liked) {
-        review.likes.pull(userId); // Remove like if previously liked
-      }
+      // Add dislike
+      review.dislikes.push(userId);
+
+      // If liked before → remove like
+      if (hasLiked) review.likes.pull(userId);
     }
 
     await review.save();
-
     res.status(200).json({
-      message: disliked ? "Dislike removed" : "Disliked",
+      message: "Dislike updated",
       likesCount: review.likes.length,
       dislikesCount: review.dislikes.length,
     });
   } catch (error) {
-    console.error("Error disliking review:", error);
-    res.status(500).json({ message: "Failed to dislike the review" });
+    res.status(500).json({ message: "Server error" });
   }
 });
-
 
 module.exports = router;
