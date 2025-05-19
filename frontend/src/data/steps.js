@@ -1,4 +1,4 @@
-const steps = [
+export const steps = [
   {
     status: "pending",
     label: "Pending",
@@ -32,13 +32,3 @@ const steps = [
     },
   },
 ];
-// timeline steps
-const iconBgColor =
-  isCompleted || isCurrent ? `bg-${icon.bgColor}` : "bg-gray-100";
-const iconTextColor =
-  isCompleted || isCurrent ? "text-white" : `text-${icon.textColor}`;
-const connectorColor = isCompleted ? "bg-blue-500" : "bg-gray-200";
-const labelTextColor =
-  isCompleted || isCurrent ? "text-gray-900" : "text-gray-500";
-const descriptionTextColor =
-  isCompleted || isCurrent ? "text-gray-900" : "text-gray-500";
