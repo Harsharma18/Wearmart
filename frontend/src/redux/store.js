@@ -4,6 +4,7 @@ import authApi from "./Auth/authapi";
 import authReducer from "../redux/Auth/authSlice";
 import productapi from "./Products/productapi";
 import reviewApi from "./Reviews/reviewApi";
+import statsApi from "./Stats/statApi";
 export const store = configureStore({
   reducer: {
     cart: cartslicesReducer,
@@ -11,11 +12,13 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     [productapi.reducerPath]: productapi.reducer,
     [reviewApi.reducerPath]: reviewApi.reducer,
+    [statsApi.reducerPath]:statsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       authApi.middleware,
       productapi.middleware,
-      reviewApi.middleware
+      reviewApi.middleware,
+      statsApi.middleware,
     ),
 });
