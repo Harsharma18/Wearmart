@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import getBaseUrl from "../../utils/baseUrl";
+import {getBaseUrl} from "../../utils/baseUrl";
 
 const statsApi = createApi({
   reducerPath: "statsApi",
@@ -10,10 +10,8 @@ const statsApi = createApi({
   tagTypes: ["Stats"],
   endpoints: (builder) => ({
     getUserStats: builder.query({
-      query: (email) => ({
-        url: `/userstats/${email}`,
-        method: "GET",
-      }),
+     query: (email) => `/userstats/${email}`,
+
       providesTags: ["Stats"],
     }),
     getAdminStats: builder.query({

@@ -4,7 +4,7 @@ const Usermodel = require("../Users/user.model");
 const Ordermodel = require("../orders/order.model");
 const Reviewmodel = require("../reviews/review.model");
 const Productmodel = require("../products/products.model");
-const Order = require("../orders/order.model");
+
 //user stats route
 router.get("/userstats/:email", async (req, res) => {
   const { email } = req.params;
@@ -19,9 +19,10 @@ router.get("/userstats/:email", async (req, res) => {
       { $match: { email: email } }, //right side mail match with req.body and left side mail match with order model
       { $group: { _id: null, totalamount: { $sum: "$amount" } } },
     ]);
-    console.log(totalPaymentresult);
+    console.log("totalPayment Result",totalPaymentresult);
     const totalAmountPayment =
       totalPaymentresult.length > 0 ? totalPaymentresult[0].totalamount : 0;
+      // console.log("totalpaymentamount",totalAmountPayment);
     //get totalReviews
     const totalReview = await Reviewmodel.countDocuments({ author: user._id });
     //total purchase product
@@ -29,16 +30,20 @@ router.get("/userstats/:email", async (req, res) => {
       email: email,
     });
     const totalPurchaseProducts = productPurchase.length;
+    // console.log("totalPurchase Products",totalPurchaseProducts);
+    // console.log("tpp",totalPurchaseProducts);
     res.json({
       totalAmount: totalAmountPayment.toFixed(2),
       totalReview,
       totalPurchaseProducts,
     });
+    
   } catch (err) {
     console.error("Error fetching user stats", err);
     res.status(500).send({ message: "Failed to fetch user stats" });
   }
 });
+
 //admin stats route
 router.get("/adminstats", async (req, res) => {
   try {
@@ -56,7 +61,7 @@ router.get("/adminstats", async (req, res) => {
       {
         $group: {
           _id: null,
-          totalEarning: { $sum: "$amount" },
+          totalEarning: { $sum: '$amount' },
         },
       },
     ]);
@@ -64,7 +69,7 @@ router.get("/adminstats", async (req, res) => {
       totalEarningResult.length > 0 ? totalEarningResult[0].totalEarning : 0;
 
     //calculate total earning in a month
-    const totalEarningMonthlyResult = await Order.aggregate([
+    const totalEarningMonthlyResult = await Ordermodel.aggregate([
       {
         $group: {
           _id: {
