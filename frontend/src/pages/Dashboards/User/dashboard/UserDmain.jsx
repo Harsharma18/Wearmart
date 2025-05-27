@@ -31,7 +31,7 @@ function UserDmain() {
   } = useGetUserStatsQuery(user?.email, {
     skip: !user?.email,
   });
-  console.log("user Stats api", stats);
+//   console.log("user Stats api", stats);
   if (isLoading)
     return <div className="text-center text-gray-500">Loading...</div>;
   if (!stats) {
