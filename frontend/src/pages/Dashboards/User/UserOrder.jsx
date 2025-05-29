@@ -2,6 +2,7 @@
 import { useSelector } from 'react-redux';
 import { useGetOrderByEmailsQuery } from '../../../redux/Orders/Orderapi';
 import { Link } from 'react-router-dom';
+import { UserOrderSkeleton } from '../../../components/DashboardSkelton';
 
 function UserOrder() {
   const { user } = useSelector((state) => state.auth);
@@ -11,9 +12,9 @@ function UserOrder() {
     isError,
   } = useGetOrderByEmailsQuery(user?.email);
 
-  const orders = orderData?.orders;
+  const orders = orderData?.orders || {};
 
-  if (isLoading) return <div className="text-center py-10 text-gray-500">Loading...</div>;
+  if (isLoading) return <div className="text-center py-10 text-gray-500"><UserOrderSkeleton/></div>;
   if (isError || !orders?.length) return <div className="text-center py-10 text-red-500">No order found!</div>;
 
   return (

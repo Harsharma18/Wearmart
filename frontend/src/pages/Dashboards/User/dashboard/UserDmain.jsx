@@ -12,6 +12,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import DashboardSkelton from "../../../../components/DashboardSkelton";
 
 ChartJs.register(
   Title,
@@ -33,7 +34,7 @@ function UserDmain() {
   });
 //   console.log("user Stats api", stats);
   if (isLoading)
-    return <div className="text-center text-gray-500">Loading...</div>;
+    return <div className="text-center text-gray-500"><DashboardSkelton/></div>;
   if (!stats) {
     return <div className="text-center text-gray-500">No data available.</div>;
   }
