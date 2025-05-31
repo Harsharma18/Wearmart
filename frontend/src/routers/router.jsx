@@ -13,6 +13,11 @@ import DashboardLayout from "../pages/Dashboards/DashboardLayout";
 import PrivateRoute from "./PrivateRoute";
 import UserDmain from "../pages/Dashboards/User/dashboard/UserDmain";
 import UserOrder from "../pages/Dashboards/User/UserOrder";
+import OrderDetails from "../pages/Dashboards/User/OrderDetails";
+import UserPayment from "../pages/Dashboards/User/UserPayment";
+import UserReviews from "../pages/Dashboards/User/UserReview";
+import AdminDMain from "../pages/Dashboards/Admin/Dashboard/AdminDMain";
+import AddProduct from "../pages/Dashboards/Admin/addProduct/AddProduct";
 
 const router = createBrowserRouter([
   {
@@ -46,7 +51,10 @@ const router = createBrowserRouter([
       {
         path: "cancel",
         element: <PaymentCancel />,
-      },
+      },{
+                path: "/orders/:orderId",
+                element: <OrderDetails/>
+            },
     ],
   },
   {
@@ -57,6 +65,7 @@ const router = createBrowserRouter([
     path: "/register",
     element: <Register />,
   },
+  
   //dashboard routes
   {
     path: "/dashboard",
@@ -76,7 +85,7 @@ const router = createBrowserRouter([
       },
       {
         path: "payments",
-        element: <div>Dashboard Payments</div>,
+        element: <UserPayment/>
       },
       {
         path: "profile",
@@ -84,16 +93,16 @@ const router = createBrowserRouter([
       },
       {
         path: "reviews",
-        element: <div>User Review</div>,
+        element:<UserReviews/>,
       },
       //ADMIN ROUTES
        {
     path: "admin",
-    element: <PrivateRoute><div>Admin Dashboard</div></PrivateRoute>,
+    element: <PrivateRoute><AdminDMain/></PrivateRoute>,
   },
   {
     path: "add-new-post",
-    element: <PrivateRoute role="admin"><div>Add new post</div></PrivateRoute>,
+    element: <PrivateRoute role="admin"><AddProduct/></PrivateRoute>,
   },
   {
     path: "manage-items",
