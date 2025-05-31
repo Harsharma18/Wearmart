@@ -50,7 +50,7 @@ import { getBaseUrl } from "../../utils/baseUrl";
         method: "POST",
         url: "/create-product",
         body: additems,
-        addItems:true,
+       
         credentials: "include",
       }),
       invalidatesTags: ["Products"],
