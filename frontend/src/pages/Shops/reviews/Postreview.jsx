@@ -62,7 +62,7 @@ function Postreview({ ismodel, handlecloseModel }) {
           value={comment}
           onChange={(e) => setcomment(e.target.value)}
           rows="4"
-          className="w-full border border-gray-300 mt-3 rounded-md mb-4 focus:outline-none"
+          className="w-full border border-gray-300 mt-3 rounded-md mb-4 focus:outline-none resize-none"
         ></textarea>
         <div className="flex justify-between">
           <button
