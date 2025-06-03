@@ -8,8 +8,8 @@ const { storage } = require("../../cloudinary");
 const upload = multer({ storage });
 //post a product
 router.post("/create-product", upload.single("image"), async (req, res) => {
-  console.log("Received file:", req.file);
-  console.log("Request body:", req.body);
+  // console.log("Received file:", req.file);
+  // console.log("Request body:", req.body);
 
   try {
     const image = req.file?.path;
@@ -29,7 +29,7 @@ router.post("/create-product", upload.single("image"), async (req, res) => {
     res.status(500).send({ message: "Error creating new product" });
   }
 });
-// Update the GET route in your backend
+
 router.get("/", async (req, res) => {
   try {
     const {
@@ -140,12 +140,13 @@ router.get("/:id", async (req, res) => {
   }
 });
 //update
-router.patch("/update/:id", async (req, res) => {
+router.patch("/update/:id",upload.single("image"), async (req, res) => {
   try {
     const { id } = req.params;
+    const image = req.file?.path;
     const updateproduct = await ProductModel.findByIdAndUpdate(
       id,
-      { ...req.body },
+      { ...req.body,image },
       { new: true }
     );
     if (!updateproduct) {
