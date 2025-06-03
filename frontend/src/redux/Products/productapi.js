@@ -54,9 +54,9 @@ import { getBaseUrl } from "../../utils/baseUrl";
         credentials: "include",
       }),
       invalidatesTags: ["Products"],
-    }),    
+    }),     
     updateProduct: builder.mutation({
-      query: ({ id, ...updateditem }) => ({
+      query: ({ id,updateditem }) => ({
         method: "PATCH",
         url: `/update/${id}`,
         body: updateditem,
@@ -70,7 +70,7 @@ import { getBaseUrl } from "../../utils/baseUrl";
     deleteProduct: builder.mutation({
       query: ({ id, ...rest }) => ({
         method: "DELETE",
-        url: `/${id}`,
+        url: `/delete/${id}`,
         body: rest,
         credentials: "include",
       }),
