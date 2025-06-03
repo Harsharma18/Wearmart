@@ -4,7 +4,7 @@ import ProductCard from "./Productcard";
 import Shopfilter from './shopfilter';
 import { useFetchAllProductsQuery } from '../../redux/Products/productapi';
 import ShopPageSkeleton from '../../components/Shopskelton';
-
+ 
 const filterOption = {
   categories: ["all", ...new Set(products.map((item) => item.category))],
   brands: ["all", ...new Set(products.map((item) => item.brand))],
@@ -48,7 +48,7 @@ function Shoppage() {
     page: currentPage,
     limit: productPerPage,
   });
-  console.log(data);
+  // console.log(data);
 
   // Handle outside click to close filter dropdown
   useEffect(() => {
