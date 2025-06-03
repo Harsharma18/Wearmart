@@ -8,7 +8,7 @@ const reviewApi = createApi({
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth?.token;
-      console.log(getState().auth);
+      // console.log(getState().auth);
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
       }
