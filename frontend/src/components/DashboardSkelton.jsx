@@ -30,7 +30,7 @@ function DashboardSkelton() {
   );
 }// components/UserOrderSkeleton.js
 export function UserOrderSkeleton() {
-  const skeletonCount = 4; 
+  const skeletonCount = 12; 
 
   return (
     <section className="py-6 px-4 md:px-8 bg-gray-50 min-h-screen">
@@ -171,7 +171,7 @@ export const UserReviewsSkeleton = () => {
 
 
 export function UserPaymentsSkeleton() {
-  const skeletonCount = 4;
+  const skeletonCount = 12;
 
   return (
     <div className="py-6 px-4">
@@ -196,6 +196,35 @@ export function UserPaymentsSkeleton() {
     </div>
   );
 }
+//MANAGE PRODUCT SKELTON 
+const SkeletonBox = ({ className }) => (
+  <div className={`bg-gray-300 animate-pulse rounded ${className}`} />
+);
+
+export const UpdateProductSkeleton = () => {
+  return (
+    <div className="mt-1 flex items-center justify-center px-4 py-8 sm:px-6 lg:px-8 bg-gray-100">
+      <div className="w-full max-w-5xl bg-white rounded-xl shadow-lg overflow-hidden md:flex">
+        {/* Form Section Skeleton */}
+        <div className="w-full md:w-1/2 p-8 space-y-4">
+          <SkeletonBox className="h-6 w-1/2 mx-auto mb-4" />
+          <SkeletonBox className="h-10 w-full" /> {/* Name */}
+          <SkeletonBox className="h-10 w-full" /> {/* Price */}
+          <SkeletonBox className="h-24 w-full" /> {/* Description */}
+          <SkeletonBox className="h-10 w-full" /> {/* Category */}
+          <SkeletonBox className="h-10 w-full" /> {/* Color */}
+          <SkeletonBox className="h-10 w-full bg-blue-300" /> {/* Button */}
+        </div>
+
+        {/* Image Upload Skeleton */}
+        <div className="w-full md:w-1/2 bg-gray-100 flex flex-col justify-center items-center px-6 py-8 space-y-6">
+          <SkeletonBox className="h-36 w-full" /> {/* Upload Box */}
+          <SkeletonBox className="h-40 w-40" /> {/* Image Preview */}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 
 
