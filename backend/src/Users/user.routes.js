@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const Usermodel = require("./user.model");
 require("dotenv").config();
+const multer = require("multer");
+const { storage } = require("../../cloudinary");
+const upload = multer({ storage });
 // const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const verifyToken = require("../middleware/verifyToken");
@@ -23,7 +26,7 @@ router.post("/register", async (req, res) => {
     console.log(err);
     res.status(500).send({ error: err.message });
   }
-});
+}); 
 //login endpoint
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -58,6 +61,7 @@ router.post("/login", async (req, res) => {
         username: user.username,
         email: user.email,
         role: user.role,
+        bio:user.bio,
         profession: user.profession,
         profileImg: user.profileImg,
       },
@@ -118,36 +122,47 @@ router.put("/users/:id", async (req, res) => {
   }
 });
 //edit and update profile
-router.patch("/edit-profile", async (req, res) => {
+router.patch("/edit-profile", upload.single("image"), async (req, res) => {
   try {
-    const { id, username, bio, profession, profileImg } = req.body;
+    const img = req.file?.path;
+    const { id, username, bio, profession } = req.body;
+
+   
+
     if (!id) {
       return res.status(401).send({ message: "User id is required" });
     }
+
     const user = await Usermodel.findById(id);
     if (!user) {
       return res.status(401).send({ message: "user not found" });
     }
-    //update profile
+
+    // Update fields safely
     if (username !== undefined) user.username = username;
-    if (profileImg !== undefined) user.profileImg = profileImg;
     if (bio !== undefined) user.bio = bio;
     if (profession !== undefined) user.profession = profession;
+    if (img) user.profileImg = img;
+
     await user.save();
+
     res.status(200).send({
-      message: "Profile update succesfully",
+      message: "Profile update successfully",
       user: {
         id: user.id,
         username: user.username,
         email: user.email,
+        bio:user.bio,
         role: user.role,
         profession: user.profession,
         profileImg: user.profileImg,
       },
     });
   } catch (err) {
+    console.error("Update error:", err); 
     res.status(401).send({ message: "Error updating user profile" });
   }
 });
+
 
 module.exports = router;
