@@ -1,13 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getBaseUrl } from "../../utils/baseUrl";
-  const productapi = createApi({
+const productapi = createApi({
   reducerPath: "productsApi",
   baseQuery: fetchBaseQuery({ baseUrl: `${getBaseUrl()}/api/product` }),
   credentials: "include",
   tagTypes: ["Products", "Product"],
   endpoints: (builder) => ({
     fetchAllProducts: builder.query({
-      query: ({   //for dynamic we pass qury here any name we pass
+      query: ({
+        //for dynamic we pass qury here any name we pass
         searchInput,
         category,
         brand,
@@ -20,17 +21,17 @@ import { getBaseUrl } from "../../utils/baseUrl";
         limit = 10,
       }) => {
         const queryParams = new URLSearchParams({
-          category: category || "",  //we give any name to left side right side name is of query pass 
+          category: category || "", //we give any name to left side right side name is of query pass
           color: color || "",
           brand: brand || "",
-          ratings: ratings || '',
+          ratings: ratings || "",
           searchInput: searchInput || "",
-          minPrice: minPrice || '',
+          minPrice: minPrice || "",
           maxPrice: maxPrice || "",
           sort: sort,
           page: page.toString(),
           limit: limit.toString(),
-        }).toString();//same query params name we write left pass into  req.query
+        }).toString(); //same query params name we write left pass into  req.query
         return {
           method: "GET",
           url: `/?${queryParams}`,
@@ -50,13 +51,13 @@ import { getBaseUrl } from "../../utils/baseUrl";
         method: "POST",
         url: "/create-product",
         body: additems,
-       
+
         credentials: "include",
       }),
       invalidatesTags: ["Products"],
-    }),     
+    }),
     updateProduct: builder.mutation({
-      query: ({ id,updateditem }) => ({
+      query: ({ id, updateditem }) => ({
         method: "PATCH",
         url: `/update/${id}`,
         body: updateditem,
@@ -65,7 +66,6 @@ import { getBaseUrl } from "../../utils/baseUrl";
       invalidatesTags: ["Products"],
       //or
       // invalidatesTags: (result, error, { id }) => [{ type: "Product", id }, "Products"]
-
     }),
     deleteProduct: builder.mutation({
       query: ({ id, ...rest }) => ({
@@ -75,7 +75,6 @@ import { getBaseUrl } from "../../utils/baseUrl";
         credentials: "include",
       }),
       invalidatesTags: (result, error, { id }) => [{ type: "Product", id }],
-
     }),
   }),
 });
@@ -87,4 +86,3 @@ export const {
   useDeleteProductMutation,
 } = productapi;
 export default productapi;
-

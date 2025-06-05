@@ -64,6 +64,7 @@ const authApi = createApi({
                 url:"/edit-profile",
                 method:"PATCH",
                 body:profileData,
+                
 
             }),
             invalidatesTags: ['Users']
@@ -71,6 +72,6 @@ const authApi = createApi({
     })
 });
 export const {useRegisterUserMutation,useLoginUserMutation,useLogoutUserMutation,
-    useDeleteUserMutation,useUpdateUserroleMutation,useGetUserQuery
+    useDeleteUserMutation,useUpdateUserroleMutation,useGetUserQuery,useEditProfileMutation
 } = authApi;
 export default authApi;
