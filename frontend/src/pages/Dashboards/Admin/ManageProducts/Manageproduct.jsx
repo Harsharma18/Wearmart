@@ -26,7 +26,7 @@ function Manageproduct() {
     page: currentPage,
     limit: productPerPage,
   });
-    // console.log(products,totalPages,totalProducts);
+  // console.log(products,totalPages,totalProducts);
 
   const buttonPerPage = 3;
   const startIndex =
@@ -87,63 +87,91 @@ function Manageproduct() {
             </h3>
           </div>
 
-          <div className="block w-full overflow-x-auto">
+          {/* Table View for Desktop */}
+          <div className="hidden md:block w-full overflow-x-auto">
             <table className="items-center bg-transparent w-full border-collapse ">
               <thead>
                 <tr>
-                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
                     No.
                   </th>
-                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
                     Product Name
                   </th>
-                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                    Publishing date
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
+                    Publishing Date
                   </th>
-                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                    Edit or manage
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
+                    Edit
                   </th>
-                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
                     Actions
                   </th>
                 </tr>
               </thead>
-
               <tbody>
                 {products &&
                   products.map((product, index) => (
-                    <tr key={index}>
-                      <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                    <tr key={index} className="border-b shadow-2xl">
+                      <td className="px-6 py-4 text-sm">
                         {(currentPage - 1) * productPerPage + 1 + index}
-                      </th>
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
-                        {product?.name}
                       </td>
-                      <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                        {moment(product?.createdAt).format("MMMM Do YYYY, h:mm:ss a")}
-
+                      <td className="px-6 py-4 text-sm">{product?.name}</td>
+                      <td className="px-6 py-4 text-sm">
+                        {moment(product?.createdAt).format(
+                          "MMMM Do YYYY, h:mm:ss a"
+                        )}
                       </td>
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 cursor-pointer ">
-                        <Link className="  bg-indigo-700 hover:bg-indigo-500 text-white px-4 py-1 rounded-md" to={`/dashboard/update-post/${product._id}`}>
-                          {" "}
-                        <i class="fas fa-edit"></i>
+                      <td className="px-6 py-4">
+                        <Link
+                          to={`/dashboard/update-post/${product._id}`}
+                          className="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded-md"
+                        >
+                          <i className="fas fa-edit"></i>
                         </Link>
                       </td>
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                      <td className="px-6 py-4">
                         <button
-                          onClick={() => {
-                            // console.log("Deleting product:", product); 
-                            handleDeleteProduct(product?._id);
-                          }}
-                          className="bg-red-600 hover:bg-red-500  text-white px-2 py-1 cursor-pointer"
+                          onClick={() => handleDeleteProduct(product?._id)}
+                          className="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded-md"
                         >
-                           <i class="fas fa-trash"></i>
+                          <i className="fas fa-trash"></i>
                         </button>
                       </td>
                     </tr>
                   ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Card View for Mobile */}
+          <div className="md:hidden  space-y-4 mt-4">
+            {products &&
+              products.map((product, index) => (
+                <div key={index} className="bg-white rounded-lg shadow-md p-4">
+                  <h4 className="text-sm font-semibold">{product?.name}</h4>
+                  <p className="text-xs text-gray-500">
+                    Published:{" "}
+                    {moment(product?.createdAt).format(
+                      "MMMM Do YYYY, h:mm:ss a"
+                    )}
+                  </p>
+                  <div className="mt-2 flex justify-between">
+                    <Link
+                      to={`/dashboard/update-post/${product._id}`}
+                      className="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 text-xs rounded-md"
+                    >
+                      <i className="fas fa-edit"></i>
+                    </Link>
+                    <button
+                      onClick={() => handleDeleteProduct(product?._id)}
+                      className="bg-red-600 hover:bg-red-500 text-white px-3 py-1 text-xs rounded-md"
+                    >
+                      <i className="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
       </div>
@@ -153,9 +181,11 @@ function Manageproduct() {
         <button
           disabled={currentPage === 1}
           onClick={() => handlePageChange(currentPage - 1)}
-           className={`px-3 py-2 border rounded-md transition-all ${
-          currentPage === 1 ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-700"
-        }`}
+          className={`px-3 py-2 border rounded-md transition-all ${
+            currentPage === 1
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-blue-600 text-white hover:bg-blue-700"
+          }`}
         >
           Previous
         </button>
@@ -171,15 +201,17 @@ function Manageproduct() {
             {pageNumber}
           </button>
         ))}
-         <button 
-        disabled={currentPage === totalPages} 
-        onClick={() => handlePageChange(currentPage + 1)}
-        className={`px-3 py-2 border rounded-md transition-all ${
-          currentPage === totalPages ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-700"
-        }`}
-      >
-        Next
-      </button>
+        <button
+          disabled={currentPage === totalPages}
+          onClick={() => handlePageChange(currentPage + 1)}
+          className={`px-3 py-2 border rounded-md transition-all ${
+            currentPage === totalPages
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-blue-600 text-white hover:bg-blue-700"
+          }`}
+        >
+          Next
+        </button>
       </div>
     </section>
   );
