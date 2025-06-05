@@ -154,7 +154,7 @@ router.put("/updateorder/:id", async (req, res) => {
 router.delete("/delete-order/:id", async (req, res) => {
   const { id } = req.params;
 
-  try {
+  try { 
     const deletedOrder = await Order.findByIdAndDelete(id);
     if (!deletedOrder) {
       return res.status(404).send({ message: "Order not found" });
