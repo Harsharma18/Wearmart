@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Postreview from "./Postreview";
 import moment from "moment";
+import toast from "react-hot-toast";
 import {
   useLikeReviewMutation,
   useDislikeReviewMutation,
@@ -28,27 +29,39 @@ function Reviewcard() {
   const handleLike = async (reviewId) => {
     try {
       await likeReview(reviewId).unwrap();
+      toast.success("You liked this review!");
+
       refetch();
     } catch (err) {
       console.error("Error liking review:", err);
+      toast.error("Failed to like the review. Try again later.");
+
     }
   };
 
   const handleDislike = async (reviewId) => {
     try {
       await dislikeReview(reviewId).unwrap();
+      toast.success("You disliked this review.");
+
       refetch();
     } catch (err) {
       console.error("Error disliking review:", err);
+      toast.error("Failed to dislike the review. Try again.");
+
     }
   };
 
   const handleDelete = async (reviewId) => {
     try {
       await deleteReview(reviewId).unwrap();
+      toast.success("Review deleted successfully.");
+
       refetch();
     } catch (err) {
       console.error("Error deleting review:", err);
+            toast.error("Failed to delete  the review. Try again.");
+
     }
   };
 

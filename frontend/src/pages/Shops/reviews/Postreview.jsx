@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { usePostReviewMutation } from "../../../redux/Reviews/reviewApi";
 import { useParams } from "react-router-dom";
 import { useFetchProductByIdQuery } from "../../../redux/Products/productapi";
+import toast from "react-hot-toast";
 function Postreview({ ismodel, handlecloseModel }) {
   const { id } = useParams();
   const [rating, setrating] = useState(0);
@@ -17,23 +18,28 @@ function Postreview({ ismodel, handlecloseModel }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!rating || !comment.trim()) {
+      return toast.error("Please add both rating and comment.");
+    }
     const newComment = {
       comment,
       rating,
-      author:user?.id, 
+      author: user?.id,
       productId: id,
     };
-    
- 
+
     try {
       const res = await postReview(newComment).unwrap();
-      console.log(res);
-      alert("Comment posted successfully!");
+      // console.log(res);
+      toast.success("Your review has been posted successfully!");
+
       setcomment("");
       setrating(0);
       refetch();
     } catch (err) {
-      alert(err?.data?.message || err.message || "Error posting comment");
+      toast.error(
+        err?.data?.message || "Failed to post review. Please try again."
+      );
     }
 
     handlecloseModel();
