@@ -19,7 +19,7 @@ router.get("/userstats/:email", async (req, res) => {
       { $match: { email: email } }, //right side mail match with req.body and left side mail match with order model
       { $group: { _id: null, totalamount: { $sum: "$amount" } } },
     ]);
-    console.log("totalPayment Result",totalPaymentresult);
+    // console.log("totalPayment Result",totalPaymentresult);
     const totalAmountPayment =
       totalPaymentresult.length > 0 ? totalPaymentresult[0].totalamount : 0;
       // console.log("totalpaymentamount",totalAmountPayment);
