@@ -5,9 +5,10 @@ import Ordersummary from "./Ordersummary";
 import cartempty from "../../assets/cartempty.png";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 import {
   removeFromCart,
-  updateQuantity,
+  updateQuantity, 
   increaseQuantity,
   decreaseQuantity,
 } from "../../redux/features/cartSlice";
@@ -45,47 +46,59 @@ function Cartmodel({ cartItems, isCartopen, onClose }) {
             ) : (
               cartItems.map((item, index) => (
                 <div
-                className="flex mt-5 items-center justify-between shadow-md rounded-md p-3 bg-gray-100"
-                key={index}
-              >
-                {/* Left Side: Index + Image + Info */}
-                <div className="flex items-center space-x-3">
-                  <span className="px-2 bg-red-500 text-white rounded-full">{index + 1}</span>
-                  <img
-                    className="size-8 md:size-12 object-cover"
-                    src={item.image}
-                    alt={item.name}
-                  />
-                  <div>
-                    <h5 className="text-sm line-clamp-1 font-medium">{item.name}</h5>
-                    <p className="text-gray-500 text-sm">${item.price}</p>
+                  className="flex mt-5 items-center justify-between shadow-md rounded-md p-3 bg-gray-100"
+                  key={index}
+                >
+                  {/* Left Side: Index + Image + Info */}
+                  <div className="flex items-center space-x-3">
+                    <span className="px-2 bg-red-500 text-white rounded-full">
+                      {index + 1}
+                    </span>
+                    <img
+                      className="size-8 md:size-12 object-cover"
+                      src={item.image}
+                      alt={item.name}
+                    />
+                    <div>
+                      <h5 className="text-sm line-clamp-1 font-medium">
+                        {item.name}
+                      </h5>
+                      <p className="text-gray-500 text-sm">${item.price}</p>
+                    </div>
+                  </div>
+
+                  {/* Right Side: Quantity + Delete */}
+                  <div className="flex items-center space-x-2 mt-2 md:mt-0">
+                    <button
+                      onClick={() => {
+                        dispatch(decreaseQuantity(item));
+                        toast.error("item remove");
+                      }}
+                      className="hover:text-white bg-gray-200 size-6 flex justify-center items-center px-1.5 rounded-full text-gray-700 hover:bg-red-400"
+                    >
+                      -
+                    </button>
+                    <span className="px-2 text-center">{item.quantity}</span>
+                    <button
+                      onClick={() => {
+                        dispatch(increaseQuantity(item));
+                        toast.success("1 more item added 😀");
+                      }}
+                      className="hover:text-white bg-gray-200 size-6 flex justify-center items-center px-1.5 rounded-full text-gray-700 hover:bg-red-400"
+                    >
+                      +
+                    </button>
+                    <button
+                      onClick={() => {
+                        dispatch(removeFromCart(item));
+                        toast.error("Item removed from cart");
+                      }}
+                      className="text-red-500 hover:text-red-800"
+                    >
+                      <i className="fa-solid fa-trash"></i>
+                    </button>
                   </div>
                 </div>
-              
-                {/* Right Side: Quantity + Delete */}
-                <div className="flex items-center space-x-2 mt-2 md:mt-0">
-                  <button
-                    onClick={() => dispatch(decreaseQuantity(item))}
-                    className="hover:text-white bg-gray-200 size-6 flex justify-center items-center px-1.5 rounded-full text-gray-700 hover:bg-red-400"
-                  >
-                    -
-                  </button>
-                  <span className="px-2 text-center">{item.quantity}</span>
-                  <button
-                    onClick={() => dispatch(increaseQuantity(item))}
-                    className="hover:text-white bg-gray-200 size-6 flex justify-center items-center px-1.5 rounded-full text-gray-700 hover:bg-red-400"
-                  >
-                    +
-                  </button>
-                  <button
-                    onClick={() => dispatch(removeFromCart(item))}
-                    className="text-red-500 hover:text-red-800"
-                  >
-                    <i className="fa-solid fa-trash"></i>
-                  </button>
-                </div>
-              </div>
-              
               ))
             )}
           </div>
@@ -97,7 +110,10 @@ function Cartmodel({ cartItems, isCartopen, onClose }) {
     </div>
   );
 
-  return ReactDOM.createPortal(modalContent, document.getElementById("portal-root"));
+  return ReactDOM.createPortal(
+    modalContent,
+    document.getElementById("portal-root")
+  );
 }
 
 export default Cartmodel;
