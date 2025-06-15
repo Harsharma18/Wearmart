@@ -23,7 +23,16 @@ import Updateproduct from "../pages/Dashboards/Admin/ManageProducts/Updateproduc
 import Manageuser from "../pages/Dashboards/Admin/ManageUsers/Manageuser";
 import ManageOrder from "../pages/Dashboards/Admin/ManageOrder/ManageOrder";
 import UserProfile from "../pages/Dashboards/User/UserProfile";
-
+import ContactPage from "../components/ContactPage";
+import { Toaster } from "react-hot-toast";
+function WithToaster({ children }) {
+  return (
+    <>
+      <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
+      {children}
+    </>
+  );
+}
 const router = createBrowserRouter([
   {
     path: "/",
@@ -41,10 +50,15 @@ const router = createBrowserRouter([
         path: "search",
         element: <Searchpage />,
       },
+       {
+        path:"contact",
+        element:<ContactPage/>
+      },
       {
         path: "shop",
         element: <Shoppage />,
       },
+     
       {
         path: "shop/:id",
         element: <SingleProduct />,
@@ -64,11 +78,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <WithToaster>
+        <Login />
+      </WithToaster>
+    ),
   },
   {
     path: "/register",
-    element: <Register />,
+    element: (
+      <WithToaster>
+        <Register />
+      </WithToaster>
+    ),
   },
   
   //dashboard routes
