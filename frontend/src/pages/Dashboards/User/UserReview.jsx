@@ -10,7 +10,7 @@ const UserReviews = () => {
   const navigate = useNavigate();
 
   if (isLoading) return <UserReviewsSkeleton />;
-  if (error) return <div className="text-red-500 text-center py-4">Failed to load reviews!</div>;
+  if (error) return <div className="text-red-500 text-center py-4">Please Review</div>;
 
   const handleCardClick = () => {
     navigate('/shop');

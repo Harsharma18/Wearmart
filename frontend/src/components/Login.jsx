@@ -4,6 +4,7 @@ import axios from "axios";
 import { useLoginUserMutation } from "../redux/Auth/authapi";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/Auth/authSlice";
+import toast from "react-hot-toast";
 function Login() {
   // const [email ,setemail] = useState('');
   // const [password,setpassword] = useState('');
@@ -16,7 +17,9 @@ function Login() {
   const navigate = useNavigate();
   const handlesubmit = async (e) => {
     e.preventDefault();
-
+    if (!ep.email || !ep.password) {
+      return toast.error("Please fill in all fields.");
+    }
     try {
       //! using rtk query
 
@@ -25,6 +28,7 @@ function Login() {
       // const {token ,user} = res;
       // dispatch(setUser({token ,user}));
       dispatch(setUser({ user: res.user, token: res.token }));
+      toast.success("Login successful!");
       navigate("/");
       //* using fetch
       // const res = await fetch("http://localhost:8080/api/auth/login", {
@@ -50,6 +54,7 @@ function Login() {
       // alert("Login successful!");
       // navigate('/');
     } catch (err) {
+       toast.error(err?.data?.message || err?.message || err?.data || "Something went wrong");
       console.error("Login error:", err);
     }
   };

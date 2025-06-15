@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useFetchProductByIdQuery } from "../../../redux/Products/productapi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../../redux/features/cartSlice";
 import { SingleProductSkeleton } from "../../../components/Shopskelton";
 import Reviewcard from "../reviews/Reviewcard";
+import toast from "react-hot-toast";
 
 function SingleProduct() {
   const [ismore, setismore] = useState(false);
@@ -17,6 +18,8 @@ function SingleProduct() {
   const singleProduct = data?.product || {};
   const productreviews = data?.reviews|| [];
   const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.cartItems);
+
   const description = singleProduct?.description;
   const trimDesc = singleProduct?.description
     ? singleProduct.description.substring(0, 100) + "...."
@@ -107,12 +110,22 @@ function SingleProduct() {
             <span className="font-medium">Rating:</span>
             <Ratingstar ratings={singleProduct?.rating} />
           </div> 
-          <button
-            onClick={() => dispatch(addToCart(singleProduct))}
-            className="inline-flex  cursor-pointer items-center justify-center gap-2 mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2.5 px-6 rounded-md text-sm font-medium transition duration-300 ease-in-out shadow"
-          >
-            <i class="fa-solid fa-cart-plus"></i> Add to Cart
-          </button>
+         <button
+  onClick={() => {
+    const isInCart = cartItems.find(item => item._id === singleProduct._id);
+    // console.log(isInCart);
+    if (isInCart) {
+      toast.error("Item already added to cart");
+    } else {
+      dispatch(addToCart(singleProduct));
+      toast.success("Item added to cart");
+    }
+  }}
+  className="inline-flex  cursor-pointer items-center justify-center gap-2 mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2.5 px-6 rounded-md text-sm font-medium transition duration-300 ease-in-out shadow"
+>
+  <i className="fa-solid fa-cart-plus"></i> Add to Cart
+</button>
+
         </div>
       </div>
       {/* Product Review Section */}

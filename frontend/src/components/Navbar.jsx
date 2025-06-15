@@ -89,16 +89,11 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link
-              to="/"
-              className="hover:text-blue-600 transition duration-300"
-            >
-              Pages
-            </Link>
+           
           </li>
           <li>
             <Link
-              to="/"
+              to="/contact"
               className="hover:text-blue-600 transition duration-300"
             >
               Contact
@@ -216,17 +211,10 @@ const Navbar = () => {
                     Shop
                   </Link>
                 </li>
+               
                 <li>
                   <Link
-                    to="/"
-                    className="hover:text-blue-600 transition duration-300"
-                  >
-                    Pages
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/"
+                    to="/contact"
                     className="hover:text-blue-600 transition duration-300"
                   >
                     Contact

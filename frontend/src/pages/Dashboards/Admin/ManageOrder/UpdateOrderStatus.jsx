@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { useUpdateOrderstatusMutation } from "../../../../redux/Orders/Orderapi";
 import {toast} from 'react-hot-toast';
 function UpdateOrderStatus({ selectOrder, isOpen, onClose, OnStatusUpdate }) {
-  console.log("Selected order details", selectOrder);
+//   console.log("Selected order details", selectOrder);
   const [status, setStatus] = useState(selectOrder?.status);
   const [UpdateOrderStatus,{isLoading,isError}] = useUpdateOrderstatusMutation();
   const handleUpdateOrderStatus = async () => {
     try {
       const response = await UpdateOrderStatus({ id: selectOrder?._id, status });
-      console.log("updated order status", response);
+    //   console.log("updated order status", response);
       toast.success("Order status update successfully");
       OnStatusUpdate();
       onClose();

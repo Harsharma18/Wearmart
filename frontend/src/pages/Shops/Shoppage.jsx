@@ -4,7 +4,7 @@ import ProductCard from "./Productcard";
 import Shopfilter from './shopfilter';
 import { useFetchAllProductsQuery } from '../../redux/Products/productapi';
 import ShopPageSkeleton from '../../components/Shopskelton';
- 
+ import toast from 'react-hot-toast';
 const filterOption = {
   categories: ["all", ...new Set(products.map((item) => item.category))],
   brands: ["all", ...new Set(products.map((item) => item.brand))],
@@ -142,6 +142,7 @@ function Shoppage() {
       searchInput: "",
     });
     setCurrentPage(1);
+      toast.success("All filters cleared");
   };
   if (isLoading) return <ShopPageSkeleton/>;
   if (error) return (
