@@ -1,21 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Hind:wght@300;400;500;600;700&family=Monoton&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+JP:wght@100..900&family=Righteous&family=Russo+One&family=Shojumaru&display=swap');
 @import "tailwindcss";
     
-
 .animate-marquee {
-  display: flex;
-  animation: marquee 12s linear infinite;
-  will-change: transform;
+  animation: scroll-marquee 10s linear infinite;
 }
 
-@keyframes marquee {
-  from {
+@keyframes scroll-marquee {
+  0% {
     transform: translateX(0%);
   }
-  to {
+  100% {
     transform: translateX(-50%);
   }
 }
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none; 
 }
