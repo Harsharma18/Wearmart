@@ -8,7 +8,7 @@ import { SearchPageSkelton } from '../../components/Shopskelton';
 function Categorypage() {
     const {categoryName} = useParams();
     const {data={},isLoading,isError} = useFetchAllProductsQuery({category:categoryName});
-    console.log(data);
+    // console.log(data);
     // const [filterProduct,setfilterProduct] = useState([]);
     // useEffect(()=>{
     //     const filtered = products.filter((item)=>item.category.toLowerCase() === categoryName.toLowerCase());

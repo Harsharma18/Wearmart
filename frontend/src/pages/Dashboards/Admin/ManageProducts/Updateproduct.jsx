@@ -68,7 +68,7 @@ function Updateproduct() {
     try {
       setloading(true);
        const response = await updateProduct({id,updateditem:payload}).unwrap();
-       console.log("updated product OrderDetails",response);
+      //  console.log("updated product OrderDetails",response);
       toast.success("Product updated!");
        await refetch();
       navigate(`/shop/${id}`);

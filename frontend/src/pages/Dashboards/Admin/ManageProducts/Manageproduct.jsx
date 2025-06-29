@@ -45,7 +45,7 @@ function Manageproduct() {
   };
   const [deleteProduct] = useDeleteProductMutation();
   const handleDeleteProduct = async (id) => {
-    console.log(id);
+    // console.log(id);
     if (!id) {
       console.error("No product ID provided for deletion.");
       return;

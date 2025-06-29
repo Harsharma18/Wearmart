@@ -6,9 +6,11 @@ import { useFetchProductByIdQuery } from "../../../redux/Products/productapi";
 import toast from "react-hot-toast";
 function Postreview({ ismodel, handlecloseModel }) {
   const { id } = useParams();
+
   const [rating, setrating] = useState(0);
   const [comment, setcomment] = useState("");
-  const { user } = useSelector((state) => state.auth || {}); // <-- correct slice
+  const { user } = useSelector((state) => state.auth || {});
+
   // console.log(user);
 
   const { refetch } = useFetchProductByIdQuery(id, { skip: !id });
@@ -25,12 +27,13 @@ function Postreview({ ismodel, handlecloseModel }) {
       comment,
       rating,
       author: user?.id,
+
       productId: id,
     };
+    console.log(newComment);
 
     try {
       const res = await postReview(newComment).unwrap();
-      // console.log(res);
       toast.success("Your review has been posted successfully!");
 
       setcomment("");
