@@ -24,7 +24,10 @@ router.post("/post-review", async (req, res) => {
         author,
       });
     }
-    const reviews = await ReviewModel.find({ productId }).populate("author", "username profileImg"); 
+    const reviews = await ReviewModel.find({ productId }).populate(
+      "author",
+      "username profileImg"
+    );
     // console.log(reviews);
     if (reviews.length > 0) {
       const totalRating = reviews.reduce((acc, item) => item.rating + acc, 0);
@@ -66,7 +69,7 @@ router.get("/product/:productId", async (req, res) => {
   try {
     const reviews = await ReviewModel.find({
       productId: req.params.productId,
-    }).populate("author", "username profileImg"); 
+    }).populate("author", "username profileImg");
     res.status(200).send(reviews);
   } catch (err) {
     res.status(500).send({ message: "Failed to get reviews" });
@@ -146,7 +149,6 @@ router.post("/like-review/:reviewId", verifyToken, async (req, res) => {
   const { reviewId } = req.params;
   const userId = req.user.userid;
   // console.log("like",userId);
-  
 
   try {
     const review = await ReviewModel.findById(reviewId);
@@ -180,7 +182,6 @@ router.post("/dislike-review/:reviewId", verifyToken, async (req, res) => {
   const { reviewId } = req.params;
   const userId = req.user.userid;
   // console.log("dislike",userId);
-  
 
   try {
     const review = await ReviewModel.findById(reviewId);
